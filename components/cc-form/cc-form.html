@@ -1,0 +1,181 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../gold-cc-expiration-input/gold-cc-expiration-input.html">
+<link rel="import" href="../gold-cc-cvc-input/gold-cc-cvc-input.html">
+<link rel="import" href="../gold-cc-input/gold-cc-input.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="cc-form.html">
+<link rel="import" href="cc-styles.html">
+
+<!--
+An element providing a cool credit card form with validation and Card Preview
+
+Example:
+
+    <cc-form></cc-form>
+
+@demo
+-->
+
+<dom-module id="cc-form">
+  <style include="cc-styles"></style>
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+  </style>
+  
+  <template>
+
+    <div class="cc-card-container">
+      <div class$="{{_ccClass(cardType,_showBack)}}">
+        <div class="cc-card-front">
+          <div hidden$="{{!_hasCardType(cardType)}}" class$="{{_logoClass(cardType)}}"></div>
+          <div class="cc-card-lower">
+            <div class="cc-card-shiny"></div>
+            <div class="cc-card-cvc cc-card-display"><span>{{cvc}}</span></div>
+            <div class="cc-card-number cc-card-display"><span>{{creditCard}}</span></div>
+            <div class="cc-card-name cc-card-display"><span>{{fullName}}</span></div>
+            <div class="cc-card-expiry cc-card-display" data-before="month/year" data-after="validthru">{{expiryDate}}</div>
+          </div>
+        </div>
+        <div class="cc-card-back">
+          <div class="cc-card-bar"></div>
+          <div class="cc-card-cvc cc-card-display">{{cvc}}</div>
+          <div class="cc-card-shiny"></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <paper-input value="{{fullName}}">&nbsp;</paper-input>
+      <gold-cc-input auto-validate$="[[autoValidate]]" required value="{{creditCard}}" card-type="{{cardType}}"></gold-cc-input>
+      <gold-cc-expiration-input auto-validate$="[[autoValidate]]" value="{{expiryDate}}"></gold-cc-expiration-input>
+      <gold-cc-cvc-input auto-validate$="[[autoValidate]]" card-type="[[cardType]]" on-focus="_enteredCvc" on-blur="_exitedCvc" value="{{cvc}}"></gold-cc-cvc-input>
+    </div>
+
+  </template>
+  
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'cc-form',
+
+    properties: {
+      
+      /**
+       * Set to true to auto-validate the credit card input values.
+       */
+      autoValidate: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Full name on the Credit Card 
+       */
+      fullName: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Credit Card number 
+       */
+      creditCard: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Credit Card expiry date in the format: `[MM/YY]`
+       */
+      expiryDate: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Credit Card Type 
+       *  Possible valid values
+       * - mastercard
+       * - visa
+       * - amex
+       * - discover 
+       */
+      cardType: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Credit Card CVC (Card Verification Code) 
+       */
+      cvc: {
+        type: String,
+        value: ''
+      },
+      _showBack: {
+        type: Boolean,
+        value: false,
+        readonly: true
+      }
+    },
+    _logoClass: function(cardType) {
+      var classes = 'cc-card-logo';
+      if (!!cardType) {
+        classes += ' cc-card-' + cardType;
+      }
+      console.log(classes);
+      return classes;
+    },
+    _ccClass: function(cardType, showBack) {
+      var classes = 'cc-card';
+      if (!!cardType) {
+        classes += ' cc-card-identified cc-card-' + cardType;
+      }
+      if (!!showBack) {
+        classes += ' cc-card-flipped';
+      }
+      console.log({cardType, showBack});
+      return classes;
+    },
+    _cardValid: function(card) {
+      var cc = CreditCardValidator.validate(card);
+      if (cc.valid) {
+        this.cardType = cc.card_type.name;
+      } else {
+        this.cardType = '';
+      }
+    },
+    _hasCardType: function(cardType) {
+      return !!this.cardType;
+    },
+    _enteredCvc: function() {
+      this._showBack = true;
+    },
+    _exitedCvc: function() {
+      this._showBack = false;
+    },
+    observers: [
+      '_cardValid(creditCard)'
+    ],
+    ready: function() {
+      console.log('cc-form ready');
+    },
+    attached: function() {
+      console.log('cc-form attached');
+    },
+    detached: function() {
+      console.log('cc-form detached');
+    },
+
+  });
+
+</script>
