@@ -13,7 +13,7 @@
   ],
   "main": "cc-form.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/vic10us/cc-form/",
+  "homepage": "https://vic10us.github.io/cc-form/",
   "ignore": [
     "/.*",
     "/test/",
@@ -38,11 +38,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
     "web-component-tester": "*"
   },
-  "_release": "60782cdec2",
+  "_release": "5284ba368f",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "60782cdec2edf0079672fdb43c77278f58ab037f"
+    "commit": "5284ba368ff9165f3accf680357abda62ca49fda"
   },
   "_source": "git://github.com/vic10us/cc-form.git",
   "_target": "master",

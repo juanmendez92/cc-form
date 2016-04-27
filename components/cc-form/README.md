@@ -1,9 +1,9 @@
-# cc-form
+[![Join the chat at https://gitter.im/vic10us/cc-form](https://badges.gitter.im/vic10us/cc-form.svg)](https://gitter.im/vic10us/cc-form?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
-[![Join the chat at https://gitter.im/vic10us/cc-form](https://badges.gitter.im/vic10us/cc-form.svg)](https://gitter.im/vic10us/cc-form?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# A Polymer CreditCard Element
+*_add a little pzazz to the mundane task of entering your credit card info on a website_*
 
-An element providing a starting point for your own reusable Polymer elements.
-
+Demo and API docs: _https://vic10us.github.io/cc-form/components/cc-form/_
 
 ## Dependencies
 
